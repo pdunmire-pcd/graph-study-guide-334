@@ -1,4 +1,5 @@
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
@@ -83,7 +84,27 @@ public class Practice {
    * @return a sorted list of all reachable vertex values by  
    */
   public static List<Integer> sortedReachable(Vertex<Integer> starting) {
-    return null;
+    if (starting == null) return new ArrayList<>();
+
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    Deque<Vertex<Integer>> work = new ArrayDeque<>();
+    List<Integer> values = new ArrayList<>();
+
+    visited.add(starting);
+    work.push(starting);
+
+    while (!work.isEmpty()){
+      Vertex<Integer> current = work.pop();
+      values.add(current.data);
+      for (Vertex<Integer> neighbor : current.neighbors){
+        if (!visited.contains(neighbor)){
+          visited.add(neighbor);
+          work.push(neighbor);
+        }
+      }
+    }
+    values.sort(Integer:: compareTo);
+    return values;
   }
 
   /**
@@ -97,7 +118,17 @@ public class Practice {
    * @return a sorted list of all reachable vertex values
    */
   public static List<Integer> sortedReachable(Map<Integer, Set<Integer>> graph, int starting) {
-    return null;
+    if(!graph.contains(starting)) return new ArrayList<>();
+
+    Set<Integer> visited = new HashSet<>();
+    Deque<Integer> work = new ArrayDeque<>();
+    List<Integer> values = new ArrayList<>();
+
+    visited.add(starting);
+    work.push(starting);
+
+    values.sort(Integer:: compareTo);
+    return values;
   }
 
   /**
