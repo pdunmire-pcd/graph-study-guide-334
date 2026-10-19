@@ -1,5 +1,6 @@
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
@@ -118,7 +119,7 @@ public class Practice {
    * @return a sorted list of all reachable vertex values
    */
   public static List<Integer> sortedReachable(Map<Integer, Set<Integer>> graph, int starting) {
-    if(!graph.contains(starting)) return new ArrayList<>();
+    if(!graph.containsKey(starting)) return new ArrayList<>();
 
     Set<Integer> visited = new HashSet<>();
     Deque<Integer> work = new ArrayDeque<>();
@@ -127,6 +128,18 @@ public class Practice {
     visited.add(starting);
     work.push(starting);
 
+    while (!work.isEmpty()){
+      int current = work.pop();
+      values.add(current);
+
+      Set<Integer> neighbors = graph.get(current);
+      for(int neighbor: neighbors){
+        if (!visited.contains(neighbor)){
+          visited.add(neighbor);
+          work.push(neighbor);
+        }
+      }
+    }
     values.sort(Integer:: compareTo);
     return values;
   }
