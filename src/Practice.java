@@ -1,6 +1,7 @@
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Currency;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
@@ -159,6 +160,37 @@ public class Practice {
    * @return true if there is a two-way connection between v1 and v2, false otherwise
    */
   public static <T> boolean twoWay(Vertex<T> v1, Vertex<T> v2) {
+    if(v1 == null || v2 == null) return false;
+    if(v1 == v2) return true;
+
+    boolean reachV1toV2 = reachable(v1, v2);
+    boolean reachV2toV1 = reachable(v2, v1);
+
+    return reachV1toV2 && reachV2toV1;
+  }
+
+  private static <T> boolean reachable(Vertex<T> start, Vertex<T> target){
+    if (start == null || target == null) return false;
+    Set<Vertex<T>> visited = new HashSet<>();
+    Deque<Vertex<T>> work = new ArrayDeque<>();
+
+    visited.add(start);
+    work.push(start);
+
+    while(!work.isEmpty()){
+      Vertex<T> current = work.pop();
+
+      if (current == target){
+        return true;
+      }
+
+      for(Vertex<T> neighbor : current.neighbors){
+        if (!visited.contains(neighbor)){
+          visited.add(neighbor);
+          work.push(neighbor);
+        }
+      }
+    }
     return false;
   }
 
@@ -175,6 +207,33 @@ public class Practice {
    * @return whether there exists a valid positive path from starting to ending
    */
   public static boolean positivePathExists(Map<Integer, Set<Integer>> graph, int starting, int ending) {
+    if(starting <= 0 || ending <= 0) return false;
+    if(! graph.containsKey(starting) || ! graph.containsKey(ending)) return false;
+
+    Set<Integer> visited = new HashSet<>();
+    Deque<Integer> work = new ArrayDeque<>();
+    visited.add(starting);
+    work.push(starting);
+    
+    while(!work.isEmpty()){
+      int current = work.pop();
+
+      if(current == ending){
+        return true;
+      }
+
+      Set<Integer> neighbors = graph.get(current);
+      if(neighbors == null) continue;
+
+      for (int neighbor : neighbors){
+        if(neighbor <= 0) continue;
+        if(!visited.contains(neighbor)){
+          visited.add(neighbor);
+          work.push(neighbor);
+        }
+      }
+    }
+
     return false;
   }
 
