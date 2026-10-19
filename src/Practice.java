@@ -1,7 +1,5 @@
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Currency;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
@@ -50,15 +48,15 @@ public class Practice {
     visited.add(starting);
     work.add(starting);
 
-    while (!work.isEmpty()){
+    while (!work.isEmpty()) {
       Vertex<Integer> current = work.pop();
 
-      if(current.data % 2 != 0){
+      if (current.data % 2 != 0) {
         count++;
       }
 
       for (Vertex<Integer> neighbor : current.neighbors) {
-        if (!visited.contains(neighbor)){
+        if (!visited.contains(neighbor)) {
           visited.add(neighbor);
           work.push(neighbor);
         }
@@ -95,17 +93,18 @@ public class Practice {
     visited.add(starting);
     work.push(starting);
 
-    while (!work.isEmpty()){
+    while (!work.isEmpty()) {
       Vertex<Integer> current = work.pop();
       values.add(current.data);
-      for (Vertex<Integer> neighbor : current.neighbors){
-        if (!visited.contains(neighbor)){
+
+      for (Vertex<Integer> neighbor : current.neighbors) {
+        if (!visited.contains(neighbor)) {
           visited.add(neighbor);
           work.push(neighbor);
         }
       }
     }
-    values.sort(Integer:: compareTo);
+    values.sort(Integer::compareTo);
     return values;
   }
 
@@ -129,19 +128,19 @@ public class Practice {
     visited.add(starting);
     work.push(starting);
 
-    while (!work.isEmpty()){
+    while (!work.isEmpty()) {
       int current = work.pop();
       values.add(current);
 
       Set<Integer> neighbors = graph.get(current);
-      for(int neighbor: neighbors){
-        if (!visited.contains(neighbor)){
+      for (int neighbor : neighbors) {
+        if (!visited.contains(neighbor)) {
           visited.add(neighbor);
           work.push(neighbor);
         }
       }
     }
-    values.sort(Integer:: compareTo);
+    values.sort(Integer::compareTo);
     return values;
   }
 
@@ -160,8 +159,8 @@ public class Practice {
    * @return true if there is a two-way connection between v1 and v2, false otherwise
    */
   public static <T> boolean twoWay(Vertex<T> v1, Vertex<T> v2) {
-    if(v1 == null || v2 == null) return false;
-    if(v1 == v2) return true;
+    if (v1 == null || v2 == null) return false;
+    if (v1 == v2) return true;
 
     boolean reachV1toV2 = reachable(v1, v2);
     boolean reachV2toV1 = reachable(v2, v1);
@@ -177,15 +176,15 @@ public class Practice {
     visited.add(start);
     work.push(start);
 
-    while(!work.isEmpty()){
+    while (!work.isEmpty()) {
       Vertex<T> current = work.pop();
 
-      if (current == target){
+      if (current == target) {
         return true;
       }
 
-      for(Vertex<T> neighbor : current.neighbors){
-        if (!visited.contains(neighbor)){
+      for (Vertex<T> neighbor : current.neighbors) {
+        if (!visited.contains(neighbor)) {
           visited.add(neighbor);
           work.push(neighbor);
         }
@@ -207,27 +206,27 @@ public class Practice {
    * @return whether there exists a valid positive path from starting to ending
    */
   public static boolean positivePathExists(Map<Integer, Set<Integer>> graph, int starting, int ending) {
-    if(starting <= 0 || ending <= 0) return false;
-    if(! graph.containsKey(starting) || ! graph.containsKey(ending)) return false;
+    if (starting <= 0 || ending <= 0) return false;
+    if (!graph.containsKey(starting) || !graph.containsKey(ending)) return false;
 
     Set<Integer> visited = new HashSet<>();
     Deque<Integer> work = new ArrayDeque<>();
     visited.add(starting);
     work.push(starting);
-    
-    while(!work.isEmpty()){
+
+    while (!work.isEmpty()) {
       int current = work.pop();
 
-      if(current == ending){
+      if (current == ending) {
         return true;
       }
 
       Set<Integer> neighbors = graph.get(current);
-      if(neighbors == null) continue;
+      if (neighbors == null) continue;
 
-      for (int neighbor : neighbors){
-        if(neighbor <= 0) continue;
-        if(!visited.contains(neighbor)){
+      for (int neighbor : neighbors) {
+        if (neighbor <= 0) continue;
+        if (!visited.contains(neighbor)) {
           visited.add(neighbor);
           work.push(neighbor);
         }
@@ -255,18 +254,18 @@ public class Practice {
     visited.add(person);
     work.push(person);
 
-    while(!work.isEmpty()){
+    while (!work.isEmpty()) {
       Professional current = work.pop();
 
-      if (current.getCompany().equals(companyName)){
+      if (current.getCompany().equals(companyName)) {
         return true;
       }
 
-      for(Professional neighbor : current.getConnections()){
-         if(!visited.contains(neighbor)){
+      for (Professional neighbor : current.getConnections()) {
+        if (!visited.contains(neighbor)) {
           visited.add(neighbor);
           work.push(neighbor);
-         }
+        }
       }
     }
 
@@ -350,16 +349,16 @@ public class Practice {
     int row = current[0];
     int col = current[1];
 
-    for(int[] direction : directions){
+    for (int[] direction : directions) {
       int nextRow = row + direction[0];
       int nextCol = col + direction[1];
 
       if (nextRow < 0 || nextRow >= board.length) continue;
       if (nextCol < 0 || nextCol >= board[0].length) continue;
-      if(board[nextRow][nextCol] == 'X') continue;
+      if (board[nextRow][nextCol] == 'X') continue;
 
       results.add(new int[] {nextRow, nextCol});
-     }
+    }
 
 
     return results;
