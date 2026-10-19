@@ -1,3 +1,6 @@
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,8 +27,41 @@ public class Practice {
    * @param starting the starting vertex (may be null)
    * @return the number of vertices with odd values reachable from the starting vertex
    */
+
+  // this is a depth first search 
+  // the hashset allows the visited to answer two questions quickly.. 
+  // 1. Have I seen this vertex.. 
+  // 2.Can I record it as seen now
+  // its also gives a 0(1) time because contains and add are o of 1 and stays efficient..
+  // arratDeque is a concrete efficent end operations it also disallows null.. it allows us to use push and pop
+  // to make the stack behavior clear...
+  // A queue-based breadth-first traversal is also possible with a deque, using addLast and removeFirst.
+  // ---- Time of O(V + E) ---- where 𝑉𝑟 Vr and 𝐸𝑟 Er
+  // are the vertices and edges reachable from starting.
   public static int oddVertices(Vertex<Integer> starting) {
-    return 0;
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    Deque<Vertex<Integer>> work = new ArrayDeque<>();
+    int count = 0;
+    
+    if (starting == null) return 0;
+    visited.add(starting);
+    work.add(starting);
+
+    while (!work.isEmpty()){
+      Vertex<Integer> current = work.pop();
+
+      if(current.data % 2 != 0){
+        count++;
+      }
+
+      for (Vertex<Integer> neighbor : current.neighbors) {
+        if (!visited.contains(neighbor)){
+          visited.add(neighbor);
+          work.push(neighbor);
+        }
+      }
+    }
+    return count;
   }
 
   /**
@@ -44,7 +80,7 @@ public class Practice {
    *   [2, 5, 8, 8]
    *
    * @param starting the starting vertex (may be null)
-   * @return a sorted list of all reachable vertex values by 
+   * @return a sorted list of all reachable vertex values by  
    */
   public static List<Integer> sortedReachable(Vertex<Integer> starting) {
     return null;
